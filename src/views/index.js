@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect, Provider} from 'react-redux'
 import Home from './home'
 import EventsList from './events-list'
+import ItemDetails from './item-details'
 import store from '../reducers'
 import {
   addNavigationHelpers,
@@ -21,7 +22,10 @@ const AppNavigator = StackNavigator({
      title: 'Eventos',
      headerLeft: null
    }
-  }
+ },
+ ItemDetails: {
+   screen: ItemDetails
+ }
 })
 const initialState = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('Home'));
 const navReducer = (state = initialState, action) => {

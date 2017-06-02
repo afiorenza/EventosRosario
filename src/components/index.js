@@ -1,1 +1,1 @@
-export {default} from './greeting'
+export {default} from './list-row'

@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {
-  ActivityIndicator,
   StyleSheet,
   Text,
   View,
-  ScrollView
+  ListView
 } from 'react-native';
+import ListRow from '../components'
 import get from 'lodash/get'
 
 class EventsList extends Component {
@@ -14,22 +14,28 @@ class EventsList extends Component {
   constructor (props) {
     super(props)
 
-    this.state = {}
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(get(this.props.navigation, 'state.params.events'))
+    }
   }
 
   render () {
-    const {navigation} = this.props
-
     return (
-      <View style={style.container}>
-        <ScrollView><Text>{JSON.stringify(get(navigation, 'state.params.events'))}</Text></ScrollView>
+      <View
+        style={style.list}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={(event) => <ListRow event={event} navigation={this.props.navigation} />}
+        />
       </View>
     )
   }
 }
 
 const style = StyleSheet.create({
-
-})
-
+  list: {
+    backgroundColor: 'white'
+  }
+});
 export default EventsList
