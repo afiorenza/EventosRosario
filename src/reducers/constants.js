@@ -1,0 +1,1 @@
+export const EVENTS_RECEIVED = 'EVENTS_RECEIVED'

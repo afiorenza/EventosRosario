@@ -1,59 +1,65 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {
-  View,
-  Text,
-  ListView,
+  ActivityIndicator,
   StyleSheet,
-  NativeModules
+  Text,
+  View,
+  ScrollView
 } from 'react-native';
-
-const {ReactNativeAudioStreaming} = NativeModules;
-const items = ['item 1', 'item 2', 'item 3'];
+import {isEmpty} from 'lodash'
+import {getEvents} from '../actions'
 
 class Home extends Component {
 
   constructor (props) {
     super(props)
 
-    this.state = {
-      itemPressed: 0
+    this.state = {}
+  }
+
+  componentDidMount () {
+    this.props.getEvents()
+  }
+
+  componentDidUpdate () {
+    const {events, navigation} = this.props
+
+    if (!isEmpty(events)) {
+      navigation.navigate('EventsList', {events})
     }
   }
 
   render () {
-    console.log('ReactNativeAudioStreaming -----------', NativeModules.ReactNativeAudioStreaming);
-    console.log('NativeModules -----------', NativeModules);
+    const {events} = this.props
 
     return (
-      <View>
-        <Text style={styles.header}>Home</Text>
-        <ListView
-          dataSource={this.getDataSource()}
-          renderRow={(item, index) =>
-            <Text style={styles.listItem} onPress={() => this.setState({itemPressed: item})}>item</Text>
-          }
-        />
-        <Text style={styles.header}>{`Pressed ${this.state.itemPressed}`}</Text>
+      <View style={style.container}>
+        <Text style={style.title}>Cargando eventos...</Text>
+        <ActivityIndicator />
       </View>
     )
   }
-
-  getDataSource () {
-    return new ListView.DataSource({rowHasChanged: () => undefined}).cloneWithRows(items)
-  }
 }
 
-const styles = StyleSheet.create({
-  header: {
+const mapStateToProps = ({events}) => ({events})
+
+const mapDispatchToProps = (dispatch) => ({
+  getEvents: () => getEvents(dispatch)
+})
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title: {
     fontWeight: 'bold',
     fontSize: 30,
-    padding: 20
-  },
-  listItem: {
-    paddingLeft: 20,
-    padding: 10,
-    fontSize: 20
+    bottom: 30
   }
 })
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
