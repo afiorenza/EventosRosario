@@ -3,6 +3,7 @@ import {connect, Provider} from 'react-redux'
 import Home from './home'
 import EventsList from './events-list'
 import ItemDetails from './item-details'
+import BrowserView from './browser-view'
 import store from '../reducers'
 import {
   addNavigationHelpers,
@@ -25,6 +26,9 @@ const AppNavigator = StackNavigator({
  },
  ItemDetails: {
    screen: ItemDetails
+ },
+ BrowserView: {
+   screen: BrowserView
  }
 })
 const initialState = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('Home'));

@@ -10,7 +10,7 @@ import moment from 'moment'
 const dateFormat = 'DD-MM-YYYY'
 
 const ListRow = ({event, navigation}) =>
-  <TouchableHighlight onPress={() => {console.log('adsasda'); navigation.navigate('ItemDetails')}}>
+  <TouchableHighlight onPress={() => navigation.navigate('ItemDetails', {event})}>
     <View style={style.item}>
       <Text style={style['item--title']}>{event.title}</Text>
 
