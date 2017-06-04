@@ -6,7 +6,8 @@ import {
   Text,
   View,
   ScrollView
-} from 'react-native';
+} from 'react-native'
+import {GenericError} from '../components'
 import {isEmpty} from 'lodash'
 import {getEvents} from '../actions'
 
@@ -15,11 +16,14 @@ class Home extends Component {
   constructor (props) {
     super(props)
 
-    this.state = {}
+    this.state = {
+      error: false
+    }
   }
 
   componentDidMount () {
     this.props.getEvents()
+      .catch(() => this.setState({error: true}));
   }
 
   componentDidUpdate () {
@@ -31,7 +35,12 @@ class Home extends Component {
   }
 
   render () {
-    const {events} = this.props
+    const {events} = this.props;
+    const {error} = this.state;
+
+    if (error) {
+      return <GenericError />
+    }
 
     return (
       <View style={style.container}>

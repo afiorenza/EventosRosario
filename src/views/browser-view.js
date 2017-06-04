@@ -6,6 +6,7 @@ import {
   Text,
   WebView
 } from 'react-native'
+import {GenericError} from '../components'
 
 export default class BrowserView extends Component {
   constructor (props) {
@@ -23,12 +24,7 @@ export default class BrowserView extends Component {
     if (this.state.loading) {
       return <ActivityIndicator style={style['browser-view_center']} />;
     } else if (this.state.error) {
-      return (
-        <View style={style['browser-view_center']}>
-          <Text style={style['browser-view--error-title']}>¡Lo sentimos!</Text>
-          <Text style={style['browser-view--error']}>Hubo en error al cargar la pagina</Text>
-        </View>
-      );
+      return <GenericError />;
     } else {
       return (
         <WebView
@@ -48,15 +44,5 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
-  },
-  'browser-view--error-title': {
-    color: 'black',
-    fontSize: 30,
-    fontWeight: 'bold'
-  },
-  'browser-view--error': {
-    color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold'
   }
-})
+});

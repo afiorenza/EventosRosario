@@ -6,7 +6,7 @@ import {
   View,
   ListView
 } from 'react-native';
-import ListRow from '../components'
+import {ListRow} from '../components'
 import get from 'lodash/get'
 
 class EventsList extends Component {

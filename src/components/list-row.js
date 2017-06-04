@@ -6,6 +6,7 @@ import {
   View
 } from 'react-native';
 import moment from 'moment'
+import {get} from 'lodash'
 
 const dateFormat = 'DD-MM-YYYY'
 
@@ -19,10 +20,13 @@ const ListRow = ({event, navigation}) =>
         <Text>{`${moment(event.fecha_y_hora_inicio).format(dateFormat)} hasta ${moment(event.fecha_y_hora_fin).format(dateFormat)}`}</Text>
       </View>
 
-      <View style={{flexDirection: 'row'}}>
-        <Text style={style['item--ask']}>¿Donde?</Text>
-        <Text>{event.lugares[0].direccion_completa}</Text>
-      </View>
+      {
+        get(event, 'lugares[0].direccion_completa') &&
+        <View style={{flexDirection: 'row'}}>
+          <Text style={style['item--ask']}>¿Donde?</Text>
+          <Text>{get(event, 'lugares[0].direccion_completa')}</Text>
+        </View>
+      }
     </View>
   </TouchableHighlight>
 
