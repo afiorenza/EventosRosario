@@ -12,6 +12,7 @@ import {get, isEmpty} from 'lodash'
 import {getGeolocation} from '../services'
 
 const getEvent = navigation => get(navigation, 'state.params.event') || {};
+const OK = 'OK';
 
 class ItemDetails extends Component {
   constructor (props) {
@@ -31,7 +32,7 @@ class ItemDetails extends Component {
 
     getGeolocation(nombre_calle, altura)
       .then(response => {
-        if (response.status === 'OK') {
+        if (response.status === OK) {
           this.setState({
             geoLocation: response.results[0].geometry.location
           });
@@ -45,9 +46,12 @@ class ItemDetails extends Component {
 
     return (
       <ScrollView style={style['item-details']}>
-        <Text style={style['item-details--description']}>{texto}</Text>
+        {
+          texto &&
+          <Text style={style['item-details--description']}>{texto}</Text>
+        }
         <TouchableNativeFeedback onPress={() => navigate('BrowserView', {link})}>
-          <Text>Ir al evento</Text>
+          <Text style={style['item-details--link']}>Ir al evento</Text>
         </TouchableNativeFeedback>
         {this.renderMap(this.state.geoLocation)}
       </ScrollView>
@@ -62,6 +66,7 @@ class ItemDetails extends Component {
 
       content = (
         <MapView
+          loadingEnabled
           style={style['item-details--map']}
           initialRegion={{
             latitude: lat,
@@ -90,10 +95,15 @@ const style = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15
   },
+  'item-details--link': {
+    color: 'black',
+    fontSize: 20,
+    paddingBottom: 10
+  },
   'item-details--description': {
     color: 'black',
     fontSize: 20,
-    paddingBottom: 30,
+    paddingBottom: 20,
     paddingTop: 15
   },
   'item-details--map': {

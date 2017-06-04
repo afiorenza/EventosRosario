@@ -7,7 +7,8 @@ import {
   View,
   ScrollView
 } from 'react-native'
-import {GenericError} from '../components'
+import {AsyncComponent, GenericError} from '../components'
+import EventsList from './events-list'
 import {isEmpty} from 'lodash'
 import {getEvents} from '../actions'
 
@@ -17,36 +18,29 @@ class Home extends Component {
     super(props)
 
     this.state = {
+      loading: true,
       error: false
     }
   }
 
   componentDidMount () {
     this.props.getEvents()
-      .catch(() => this.setState({error: true}));
-  }
-
-  componentDidUpdate () {
-    const {events, navigation} = this.props
-
-    if (!isEmpty(events)) {
-      navigation.navigate('EventsList', {events})
-    }
+      .then(() => this.setState({loading: false}))
+      .catch(() => this.setState({loading: false, error: true}));
   }
 
   render () {
     const {events} = this.props;
-    const {error} = this.state;
-
-    if (error) {
-      return <GenericError />
-    }
+    const {error, loading} = this.state;
 
     return (
-      <View style={style.container}>
-        <Text style={style.title}>Cargando eventos...</Text>
-        <ActivityIndicator />
-      </View>
+      <AsyncComponent
+        loadingDescription="Cargando eventos..."
+        error={error}
+        loading={loading}
+      >
+        <EventsList {...this.props}/>
+      </AsyncComponent>
     )
   }
 }

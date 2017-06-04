@@ -8,26 +8,22 @@ import {
 } from 'react-native'
 import {GenericError} from './'
 
-export default class AsyncComponent extends Component {
-  constructor (props) {
-    super(props);
+export default ({children, error, loading, loadingDescription}) => {
 
-    this.state = {
-      error: false,
-      loading: true
-    }
-  }
-
-  render () {
-    const {children, error, loading} = this.props;
-
-    if (loading) {
-      return <ActivityIndicator style={style['async-component']} />;
-    } else if (error) {
-      return <GenericError />;
-    } else {
-      return <View>{children}</View>;
-    }
+  if (loading) {
+    return (
+      <View style={style['async-component']}>
+        {
+          loadingDescription &&
+          <Text>{loadingDescription}</Text>
+        }
+        <ActivityIndicator />
+      </View>
+    );
+  } else if (error) {
+    return <GenericError />;
+  } else {
+    return <View>{children}</View>;
   }
 }
 

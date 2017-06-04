@@ -16,7 +16,7 @@ class EventsList extends Component {
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: ds.cloneWithRows(get(this.props.navigation, 'state.params.events'))
+      dataSource: ds.cloneWithRows(this.props.events)
     }
   }
 
@@ -38,4 +38,5 @@ const style = StyleSheet.create({
     backgroundColor: 'white'
   }
 });
+
 export default EventsList

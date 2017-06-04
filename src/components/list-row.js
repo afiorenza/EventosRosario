@@ -10,7 +10,7 @@ import {get} from 'lodash'
 
 const dateFormat = 'DD-MM-YYYY'
 
-const ListRow = ({event, navigation}) =>
+export default ({event, navigation}) =>
   <TouchableHighlight onPress={() => navigation.navigate('ItemDetails', {event})}>
     <View style={style.item}>
       <Text style={style['item--title']}>{event.title}</Text>
@@ -46,5 +46,3 @@ const style = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
-
-export default ListRow;
